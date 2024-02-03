@@ -43,9 +43,23 @@ public class Journal
         Console.WriteLine("Do you want to edit the file? (Y/N)");
         if (Console.ReadKey().Key == ConsoleKey.Y)
         {
-            Console.WriteLine("\nEnter the new content. Press Ctrl+D (on mac) to save and exit\n");
-            string newContent = Console.In.ReadToEnd();
-            File.WriteAllText(fileName, newContent);
+            //Console.WriteLine("\n(Press Ctrl+D (on mac) to save and exit)\n");
+            //this.Write();
+            //string additionalContent = Console.In.ReadToEnd();
+            //File.WriteAllText(fileName, additionalContent);
+            //Console.WriteLine();
+
+            Console.WriteLine("Enter the text you want to add to the file:");
+            string userInput = Console.ReadLine();
+            using (StreamWriter writer = new StreamWriter(fileName, true))
+            {
+                // Write user input to the end of the file
+                writer.WriteLine(userInput);
+            }
+        }
+        else
+        {
+            Console.WriteLine();
         }
     }
 

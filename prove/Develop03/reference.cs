@@ -4,9 +4,10 @@ class Reference {
     private string _verse;
 
     public Reference(){
-        _book = "John";
-        _chapter = "3";
-        _verse = "16";
+        //constructor if empty
+        _book = "No Book";
+        _chapter = "0";
+        _verse = "00";
     }
 
     public Reference(string book, string chapter, string verse){
@@ -21,7 +22,7 @@ class Reference {
         _verse = $"{averse} - {bverse}";
     }
 
-    public string DisplayReference()
+    public override string ToString()
     {
         //to string everything for the reference
         return $"{_book} {_chapter}:{_verse}";

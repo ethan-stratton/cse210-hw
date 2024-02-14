@@ -1,22 +1,21 @@
 class Scripture 
 { 
-    private string _text;
-    public List <Word> _wordsInScripture;
-
-    public int _difficulty = 1;
+    private List <Word> _wordsInScripture;
+    private int _difficulty = 1;
+    private Reference _reference;
     public Scripture()
     {
-        _text = "empty verse";
+        List <Word> _wordsInScripture = SplitString("Your scripture was empty.");
     }
 
-    public Scripture(string text)
+    public Scripture(Reference reference, string text)
     {
-        //_text = text;
-        List <Word> _wordsInScripture = SplitString(text);
+        _wordsInScripture = SplitString(text); // making it not null, filling it with stuff
+        _reference = reference;
     }
 
-    public List<Word> DisplayScripture(){
-        return _wordsInScripture;
+    public string DisplayScripture(){
+        return ($"{_reference.ToString()} {ToString()}");
     }
 
     public void setDifficulty(string difficulty){
@@ -40,25 +39,29 @@ class Scripture
             }
     }
 
-    public List<Word> SplitString(string sentence)
+    private List<Word> SplitString(string sentence)
     {
         List<Word> listOfWords = new List<Word>();
-
         //break the string up into individual words
         string[] wordsArray = sentence.Split(' ');
-        // Convert the array to a list
-        List<string> wordsList = new List<string>(wordsArray);
-        
-        //make a list of those words -> turn them into word objects
-        foreach (string word in wordsList)
+
+        //select each word and create a new word
+        //for each word in array, create new word object
+
+        foreach (string word in wordsArray)
         {
             // Create a new Word object named Part (Part of Scripture)
             Word Part = new Word(word);
             listOfWords.Add(Part);
         }
-
         return listOfWords;
-        //return the list of word objects
+    }
+
+    public override string ToString()
+    {
+        //returns list of Words as a string
+
+        return ("For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.");
     }
     
     public string Hide()

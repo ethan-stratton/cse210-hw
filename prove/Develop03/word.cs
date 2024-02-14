@@ -1,42 +1,35 @@
 using System;
 using System.Collections.Generic;
 
-
 public class Word {
 
-    // public string scripture {get;}
+    private string _word;
+    private bool _isHidden;
 
-    // public List<string> allWords = SplitString(scripture);
-
-    public List<string> SplitString(string scripture)
+    public Word(string word)
     {
-        // Split the string into words
-        string[] wordsArray = scripture.Split(' ');
-
-        // Convert the array to a list
-        List<string> wordsList = new List<string>(wordsArray);
-
-        return wordsList;
+        _word = word;
+        _isHidden = false;
+    }
+    public override string ToString()
+    {
+        return $"{_word}";
+    }
+    public void setWord(string word){
+        _word = word;
     }
 
-    public void RemoveWords(List<string> wordsInScripture, int count)
+    public void Hide()
     {
-        Random random = new Random();
+        _isHidden = true;
+    }
 
-        for (int i = 0; i < count && wordsInScripture.Count > 0; i++)
-        {
-            int randomWord = random.Next(0, wordsInScripture.Count);
-
-            string removedElement = wordsInScripture[randomWord];
-            wordsInScripture.RemoveAt(randomWord);
-
-            //Console.WriteLine($"Removed word: {removedElement}");
+    public string Display(){
+        if (_isHidden == true) {
+            return "_____";
         }
-
-        Console.WriteLine("Scripture: ");
-        foreach (var words in wordsInScripture)
-        {
-            Console.Write(words + " ");
+        else{
+            return _word;
         }
     }
 

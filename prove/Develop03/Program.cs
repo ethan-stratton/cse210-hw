@@ -7,8 +7,11 @@ class Program
         // Store a scripture, including both the reference (for example "John 3:16") and the text of the scripture.
        Reference reference1 = new Reference("John", "3", "16");
         Scripture scripture1 = new Scripture(reference1, "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.");
+        
+        
         // Accommodate scriptures with multiple verses, such as "Proverbs 3:5-6".
         //add multi verse accommodation
+
         //Reference reference1 = new Reference("Proverbs", "3", "5", "6");
         //Scripture scripture1 = new Scripture(reference1, @"Trust in the Lord with all your heart
 //     and lean not on your own understanding;
@@ -23,7 +26,6 @@ class Program
 
         // Clear the console screen and display the complete scripture, including the reference and the text.
         Console.Clear();
-        //Console.WriteLine(reference1.ToString());
         Console.WriteLine(scripture1.DisplayScripture());
 
         // Prompt the user to press the enter key or type quit.
@@ -36,7 +38,6 @@ class Program
             scripture1.Hide();
             //clear screen
             Console.Clear();
-            //Console.WriteLine(reference1.ToString());
             Console.WriteLine(scripture1.DisplayScripture()); //display scripture again but this time it should display the scripture missing words
 
 

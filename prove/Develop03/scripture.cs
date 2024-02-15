@@ -2,7 +2,6 @@ class Scripture
 { 
     private List <Word> _wordsInScripture;
     private int _difficulty = 1;
-    private string _verse;
     private Reference _reference;
 
 
@@ -15,7 +14,6 @@ class Scripture
     {
         _wordsInScripture = SplitString(text);
         _reference = reference;
-        _verse = text;
     }
 
     public bool checkIfHidden{ 
@@ -83,13 +81,6 @@ class Scripture
         }
         return listOfWords;
     }
-
-    // public override string ToString()
-    // {
-    //     //returns list of Words as a string
-    //     return _verse;
-    // }
-    
     public void Hide()
     {
         Random random = new Random();
@@ -98,12 +89,16 @@ class Scripture
 
         for (int i = 0; i < count; i++)
         {
+            if (checkIfHidden)
+        {
+            break;
+        }
 
             //if not already hidden, then hide it. otherwise go to the next one until it find one not hidden
-        
             //get random index in range of the list
             int randomIndex = random.Next(_wordsInScripture.Count);
 
+            //sort through array and find the element not hidden. at that index, hide the element.
             if (!_wordsInScripture[randomIndex].getIsHidden)
             {
                 _wordsInScripture[randomIndex].Hide();
@@ -111,22 +106,6 @@ class Scripture
             else{
                 i--;
             }
-
-            // get the item at the random index and hide it
-            //_wordsInScripture[randomIndex].Hide();
-            //hiddenWord.Hide(); //sets _isHidden to True 
-            //hiddenWord.setWord(hiddenWord.Display());
         }
-        
-        // List<string> verseWithStuffMissing = new List<string>();
-        // foreach (Word word in _wordsInScripture)
-        // {
-        //     verseWithStuffMissing.Add(word.Display());
-        // }
-
-        // string final = string.Join("", verseWithStuffMissing);
-        // return final;
-
     }
-
 }

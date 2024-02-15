@@ -23,7 +23,7 @@ public class Word {
     }
 
     public string Display(){
-        if (_isHidden == true) {
+        if (_isHidden) {
             return "_____";
         }
         else{

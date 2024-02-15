@@ -98,10 +98,22 @@ class Scripture
 
         for (int i = 0; i < count; i++)
         {
+
+            //if not already hidden, then hide it. otherwise go to the next one until it find one not hidden
+        
             //get random index in range of the list
             int randomIndex = random.Next(_wordsInScripture.Count);
+
+            if (!_wordsInScripture[randomIndex].getIsHidden)
+            {
+                _wordsInScripture[randomIndex].Hide();
+            }
+            else{
+                i--;
+            }
+
             // get the item at the random index and hide it
-            _wordsInScripture[randomIndex].Hide();
+            //_wordsInScripture[randomIndex].Hide();
             //hiddenWord.Hide(); //sets _isHidden to True 
             //hiddenWord.setWord(hiddenWord.Display());
         }

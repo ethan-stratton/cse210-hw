@@ -27,19 +27,19 @@ class Program
 
         while (userInput.ToLower() != "quit"){
             //hide a few words in the scripture.
-            Console.WriteLine(scripture1.Hide());
+            scripture1.Hide();
             //clear screen
             Console.Clear();
             //Console.WriteLine(reference1.ToString());
             Console.WriteLine(scripture1.DisplayScripture()); //display scripture again but this time it should display the scripture missing words
 
 
-            // When all words in the scripture are hidden, the program should end.
-            // if (scripture1.AllWordsHidden == true)
-            // {
-            //     Console.WriteLine("You memorized it! Quitting Program.");
-            //     break;
-            // }
+            //When all words in the scripture are hidden, the program should end.
+            if (scripture1.checkIfHidden)
+            {
+                Console.WriteLine("You memorized it! Quitting Program.");
+                break;
+            }
 
             // The program should continue prompting the user and hiding more words until all words in the scripture are hidden
             Console.WriteLine("Press Enter or type: 'quit'");

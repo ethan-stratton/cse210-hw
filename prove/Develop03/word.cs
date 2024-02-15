@@ -11,17 +11,15 @@ public class Word {
         _word = word;
         _isHidden = false;
     }
-    public override string ToString()
-    {
-        return $"{_word}";
-    }
     public void setWord(string word){
         _word = word;
     }
-
     public void Hide()
     {
         _isHidden = true;
+    }
+    public bool getIsHidden {
+        get{return _isHidden;} 
     }
 
     public string Display(){

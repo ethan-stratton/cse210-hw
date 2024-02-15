@@ -2,7 +2,10 @@ class Scripture
 { 
     private List <Word> _wordsInScripture;
     private int _difficulty = 1;
+    private string _verse;
     private Reference _reference;
+
+
     public Scripture()
     {
         List <Word> _wordsInScripture = SplitString("Your scripture was empty.");
@@ -10,12 +13,36 @@ class Scripture
 
     public Scripture(Reference reference, string text)
     {
-        _wordsInScripture = SplitString(text); // making it not null, filling it with stuff
+        _wordsInScripture = SplitString(text);
         _reference = reference;
+        _verse = text;
+    }
+
+    public bool checkIfHidden{ 
+        get {
+        //loop that checks and sees if each word is hidden
+        foreach (Word word in _wordsInScripture)
+        {
+            //if there is one that is not hidden, return false
+            if (!word.getIsHidden){
+                return false;
+            }
+        }
+        return true;
+    }
     }
 
     public string DisplayScripture(){
-        return ($"{_reference.ToString()} {ToString()}");
+        //new list
+        //for each word in thingy
+        // join 
+        //return
+        List<string> displayed = new List<string>();
+        foreach (Word word in _wordsInScripture){
+            displayed.Add(word.Display());
+        }
+        string words = string.Join(" ", displayed);
+        return ($"{_reference.ToString()} {words}");
     }
 
     public void setDifficulty(string difficulty){
@@ -57,14 +84,13 @@ class Scripture
         return listOfWords;
     }
 
-    public override string ToString()
-    {
-        //returns list of Words as a string
-
-        return ("For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.");
-    }
+    // public override string ToString()
+    // {
+    //     //returns list of Words as a string
+    //     return _verse;
+    // }
     
-    public string Hide()
+    public void Hide()
     {
         Random random = new Random();
 
@@ -74,21 +100,21 @@ class Scripture
         {
             //get random index in range of the list
             int randomIndex = random.Next(_wordsInScripture.Count);
-
             // get the item at the random index and hide it
-            Word hiddenWord = _wordsInScripture[randomIndex];
-            hiddenWord.Hide(); //sets _isHidden to True 
-            hiddenWord.setWord(hiddenWord.Display());
-                     
+            _wordsInScripture[randomIndex].Hide();
+            //hiddenWord.Hide(); //sets _isHidden to True 
+            //hiddenWord.setWord(hiddenWord.Display());
         }
-        List<string> verseWithStuffMissing = new List<string>();
-        foreach (Word word in _wordsInScripture)
-        {
-            verseWithStuffMissing.Add(word.ToString());
-        }
+        
+        // List<string> verseWithStuffMissing = new List<string>();
+        // foreach (Word word in _wordsInScripture)
+        // {
+        //     verseWithStuffMissing.Add(word.Display());
+        // }
 
-        string final = string.Join("", verseWithStuffMissing);
-        return final;
+        // string final = string.Join("", verseWithStuffMissing);
+        // return final;
 
     }
+
 }

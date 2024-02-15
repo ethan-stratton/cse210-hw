@@ -5,11 +5,17 @@ class Program
     static void Main(string[] args)
     {
         // Store a scripture, including both the reference (for example "John 3:16") and the text of the scripture.
-        Reference reference1 = new Reference("John", "3", "16");
+       Reference reference1 = new Reference("John", "3", "16");
         Scripture scripture1 = new Scripture(reference1, "For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life.");
-
         // Accommodate scriptures with multiple verses, such as "Proverbs 3:5-6".
         //add multi verse accommodation
+        //Reference reference1 = new Reference("Proverbs", "3", "5", "6");
+        //Scripture scripture1 = new Scripture(reference1, @"Trust in the Lord with all your heart
+//     and lean not on your own understanding;
+//  in all your ways submit to him,
+//     and he will make your paths straight.");
+
+
 
         Console.WriteLine("Choose Difficulty: Easy, Medium, Hard, or Impossible");
         string userDifficulty = Console.ReadLine();

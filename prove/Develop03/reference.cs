@@ -19,7 +19,7 @@ class Reference {
     public Reference(string book, string chapter, string averse, string bverse){
         _book = book;
         _chapter = chapter;
-        _verse = $"{averse} - {bverse}";
+        _verse = $"{averse}-{bverse}";
     }
 
     public override string ToString()

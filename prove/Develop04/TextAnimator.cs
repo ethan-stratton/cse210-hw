@@ -14,7 +14,7 @@ class TextAnimator
         _sizeChangeRate = sizeChangeRate;
     }
 
-    public void StartGrowingAnimation(string text)
+    public void StartGrowingAnimation(string text) //found some basic resources online but they don't work for me
     {
         for (int frame = 0; frame <= _totalFrames; frame++)
         {
@@ -22,7 +22,6 @@ class TextAnimator
 
             Console.Clear();
             Console.WriteLine(GetCenteredText(text, textSize));
-
             Thread.Sleep(50);
         }
     }
@@ -36,19 +35,17 @@ class TextAnimator
 
             Console.Clear();
             Console.WriteLine(GetCenteredText(text, textSize));
-
             Thread.Sleep(50);
         }
     }
 
-    public void PrintLargeText(string text, int fontSize)
+    public void PrintAnySize(string text, int fontSize) // the only way to make things "bigger" is by giving them padding
     {
-        Console.Clear();
         Console.WriteLine(GetCenteredText(text, fontSize));
     }
 
     private string GetCenteredText(string text, int textSize)
-    {
+        // just adds padding to some text to move the text where you want
         int leftPadding = Math.Max((Console.WindowWidth - textSize) / 2, 0);
         return new string(' ', leftPadding) + text;
     }

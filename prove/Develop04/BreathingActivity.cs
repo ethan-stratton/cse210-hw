@@ -40,7 +40,7 @@ public void RunBreathingActivity()
 
         textAnimator.StartGrowingAnimation("Breathe In...");
         Countdown(5);
-        textAnimator.PrintLargeText("Hold...", 20);
+        textAnimator.PrintAnySize("Hold...", 20);
         Countdown(5);
         textAnimator.StartShrinkingAnimation("Breathe Out...");
         Countdown(5);

@@ -32,7 +32,7 @@ class TextAnimator
         for (int frame = 0; frame <= _totalFrames; frame++)
         {
             int textSize = _initialSize - (frame * _sizeChangeRate);
-            textSize = Math.Max(textSize, 1); // Ensure the text size doesn't go below 1
+            textSize = Math.Max(textSize, 1); // supposed to floor text size at 1 but it doesn't work anyway
 
             Console.Clear();
             Console.WriteLine(GetCenteredText(text, textSize));

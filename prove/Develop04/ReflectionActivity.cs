@@ -1,5 +1,5 @@
 using System.Diagnostics;
-
+using System.Threading;
 public class ReflectionActivity : Activity 
 {
 // The activity should begin with the standard starting message and prompt for the duration that is used by all activities.
@@ -30,7 +30,8 @@ private readonly List<string> _questions = new List<string>{"Why was this experi
 public void RunReflection()
 {
     //run reflection program
-    int duration = ReflectionActivity.WelcomeMessage();
+    int duration = WelcomeMessage();
+    LoadingSymbol();
 
     Random random = new Random();
     int randomIndex = random.Next(_prompts.Count);
@@ -50,14 +51,14 @@ public void RunReflection()
 
         Console.WriteLine($"{question}");
 
-        // Display the spinner animation
+        // Display the spinner animation for a specific amount of time
         for (int i = 0; i < 5; i++)
         {
-            ReflectionActivity.LoadingSymbol();
+            LoadingSymbol();
+            //couldn't get the loading symbol to disappear afterwards
         }
-        Console.WriteLine();
     }
     stopwatch.Stop();
-    ReflectionActivity.EndActivity(duration, _name);
+    EndActivity(duration, _name);
 }
 }

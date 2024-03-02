@@ -7,7 +7,6 @@ public class Activity
     protected string _description;
     protected int _duration;
     protected int _numOfPrompts;
-
     public Activity(string name, string description)
     {
         _name = name;
@@ -23,8 +22,7 @@ public class Activity
         //do stuff
         Console.WriteLine("Well Done!");
         Console.WriteLine($"You have successfully completed another {duration} seconds of {name}.");
-        Activity.LoadingSymbol();
-
+        LoadingSymbol();
     }
     public void Countdown(int j)
     {
@@ -33,8 +31,7 @@ public class Activity
         {
             Console.Write($"{i}");
             Thread.Sleep(1000);
-            Console.SetCursorPosition(Console.CursorLeft - 2, Console.CursorTop);
-            Console.Write("  "); // Clear the previous number
+            Console.Write("\b\b"); // this leaves whatever will be printed next on the same line
         }
     }
     public static void LoadingSymbol()
@@ -46,15 +43,13 @@ public class Activity
         {
             Console.Write($"{loadingChars[i % loadingChars.Length]} ");
             Thread.Sleep(100);
-            Console.Write("\b\b"); // Move the cursor back twice to overwrite the last two characters
+            Console.Write("\b\b"); // whatever comes next will print on the same line
         }
     }
-    public static int WelcomeMessage()
+    public int WelcomeMessage()
     {
-        Console.WriteLine(@$"Hi! Welcome to the {_name} activity! 
-        {_description}");
-        
-        Console.WriteLine("How long, in seconds, would you like the duration of your activity to be? ");
+        Console.WriteLine($"\nHi! Welcome to the {_name}!\n\n\t{_description}");
+        Console.WriteLine("\nHow long, in seconds, would you like the duration of your activity to be? ");
         string userInput = Console.ReadLine();
 
         // Convert the string to an int
@@ -66,7 +61,7 @@ public class Activity
         }
         else
         {
-            Console.WriteLine("Invalid input. Please enter a valid integer for the duration.");
+            Console.WriteLine("Invalid input. Default time is 20 seconds.");
             return 20; // Default value or handle the error in another way
         }
     }

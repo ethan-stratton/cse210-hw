@@ -11,7 +11,6 @@ class Program
         3. Start Listing Activity
         4. Quit";
 
-
         ConsoleKeyInfo userInput;
 
 do
@@ -20,7 +19,7 @@ do
     Console.WriteLine(welcome);
     Console.WriteLine("Select a choice from the menu");
 
-    userInput = Console.ReadKey();
+    userInput = Console.ReadKey(true);
 
     switch (userInput.KeyChar)
     {
@@ -40,16 +39,16 @@ do
             break;
 
         case '4':
-            Console.WriteLine("Thanks for being with us today.");
+            Console.WriteLine("Thanks for being with us today! We hope you feel more calm and relaxed.");
             break;
 
         default:
-            Console.WriteLine("Invalid choice. Please try again.");
+            Console.WriteLine("Invalid selection. Try again.");
             break;
     }
 
-    Console.WriteLine("Press any key to continue...");
-    Console.ReadKey();
+    Console.WriteLine("Press any key to to quit.");
+    Console.ReadKey(true);
 
 } while (userInput.KeyChar != '4');
     }

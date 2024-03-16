@@ -6,7 +6,7 @@ class Program
         Console.Clear();
         GoalHandler tracker = new GoalHandler();
 
-        // Adding some sample goals
+        // Add sample goals
         // tracker.AddGoal(new SimpleGoal("Run a Marathon", 1000));
         // tracker.AddGoal(new EternalGoal("Read Scriptures", 100));
         // tracker.AddGoal(new ChecklistGoal("Attend Temple", 0, 5, 200));
@@ -26,7 +26,7 @@ class Program
             Console.WriteLine("5. Record Event");
             Console.WriteLine("6. Exit");
 
-            Console.Write("Enter your choice (1-6): ");
+            Console.Write("\nEnter your choice (1-6): ");
             string choice = Console.ReadLine();
 
             switch (choice)

@@ -11,10 +11,11 @@ class Checklist : Goal
         _currentCount = 0;
     }
 
+    //needs a class which asks for bonus points @ 3;11
+
     public override void RecordEvent()
     {
         _currentCount++;
-        _value += 50;
 
         if (_currentCount == _targetCount)
         {
@@ -25,6 +26,10 @@ class Checklist : Goal
 
     public override string DisplayStatus()
     {
-        return $"{base.DisplayStatus()} Completed {_currentCount}/{_targetCount} times";
+        return $"{base.DisplayStatus()} -- Completed {_currentCount}/{_targetCount} times";
+    }
+
+    public override string getClassName(){
+        return typeof(Checklist).Name;
     }
 }

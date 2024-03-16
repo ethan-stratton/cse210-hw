@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.CompilerServices;
 
 class GoalHandler
 {
@@ -39,7 +40,7 @@ class GoalHandler
             goal = new Checklist(goalName, goalPoints, goalDescription, targetCount, bonusValue); 
             break;
         default:
-            Console.WriteLine("Invalid goal type: Adding a simple goal by default.");
+            Console.WriteLine("Invalid goal type:Adding a simple goal by default.");
             goal = new Simple(goalName, goalPoints, goalDescription); 
             break;
     }
@@ -65,86 +66,114 @@ class GoalHandler
             Console.WriteLine($"Goal with name {goalName} not found.");
         }
     }
-
     public void DisplayGoals()
     {
-        foreach (var goal in _goals)
+        Console.WriteLine("\nYour goals: ");
+        if (_goals.Count == 0)
         {
-            Console.WriteLine(goal.DisplayStatus());
+            Console.Write("You currently have no goals.");
+            return;
+        }
+
+        for (int i = 0; i < _goals.Count; i++)
+        {
+            // Print the goal number and its status
+            Console.WriteLine($"{i + 1}. { _goals[i].DisplayStatus()}");
         }
     }
 
     public void DisplayScore()
     {
-        Console.WriteLine($"Current Score: {_score}");
+        Console.WriteLine($"\nCurrent Score: {_score}");
     }
     public void SaveToFile(string fileName)
     {
         using (StreamWriter writer = new StreamWriter(fileName))
         {
+            //save points to top of file
+            writer.WriteLine(_score);
+
             foreach (var goal in _goals)
             {
-                writer.WriteLine($"{goal._name},{goal._value},{goal._completed}");
-
+                if (goal is Simple simpleGoal)
+                {
+                    writer.WriteLine($"{simpleGoal.getClassName()},{simpleGoal._name},{simpleGoal._description},{simpleGoal._value}, {simpleGoal._completed}");
+                }
+                if (goal is Eternal eternalGoal)
+                {
+                    writer.WriteLine($"{eternalGoal.getClassName()},{eternalGoal._name},{eternalGoal._description},{eternalGoal._value}");
+                }
+                //checklistgoal: 7 parts: name description points, bonus points, times needed, times already done
                 if (goal is Checklist checklistGoal)
                 {
-                    writer.WriteLine($"{checklistGoal._targetCount},{checklistGoal._currentCount},{checklistGoal._bonusValue}");
+                    writer.WriteLine($"{checklistGoal.getClassName()},{checklistGoal._description},{checklistGoal._value},{checklistGoal._bonusValue},{checklistGoal._targetCount},{checklistGoal._currentCount}");
                 }
             }
-            writer.WriteLine(_score);
         }
     }
 
     // Load goals and score from a file using StreamReader
+    //@3:34
     public void LoadFromFile(string fileName)
+{
+    if (File.Exists(fileName))
     {
-        if (File.Exists(fileName))
+        _goals.Clear(); // Clear existing goals in the list before loading
+
+        using (StreamReader reader = new StreamReader(fileName))
         {
-            _goals.Clear(); // Clear existing goals before loading
-
-            using (StreamReader reader = new StreamReader(fileName))
+            // Read the score first
+            if (int.TryParse(reader.ReadLine(), out int loadedScore))
             {
-                string line;
-                while ((line = reader.ReadLine()) != null)
+                _score = loadedScore;
+            }
+
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                string[] parts = line.Split(',');
+
+                string type = parts[0];
+                string name = parts[1];
+                string description = parts[2];
+                int value = int.Parse(parts[3]);
+
+                Goal goal;
+
+                if (type == "Simple")
                 {
-                    string[] parts = line.Split(',');
-                    string name = parts[0];
-                    int value = int.Parse(parts[1]);
-                    bool completed = bool.Parse(parts[2]);
-                    string description = parts[3];
+                    
+                    bool completed = bool.Parse(parts[4]);
+                    goal = new Simple(name, value, description);
+                    goal._completed = completed;
 
-                    Goal goal;
+                }
+                else if (type == "Eternal")
+                {
+                    goal = new Eternal(name, value, description);
 
-                    if (parts.Length == 4)
-                    {
-                        goal = new Goal(name, value, description);
-                        goal._completed = completed;
-                    }
-                    else if (parts.Length == 6) // Assuming a checklist goal due to additional parameters
-                    {
-                        int targetCount = int.Parse(parts[3]);
-                        int currentCount = int.Parse(parts[4]);
-                        int bonusValue = int.Parse(parts[5]);
+                }
+                else if (type == "Checklist")
+                {   
+                    int bonusValue = int.Parse(parts[4]);
+                    int targetCount = int.Parse(parts[5]);
+                    int currentCount = int.Parse(parts[6]);
 
-                        goal = new Checklist(name, value, description, targetCount, bonusValue);
-                        ((Checklist)goal)._currentCount = currentCount;
-                        goal._completed = currentCount == targetCount;
-                    }
-                    else
-                    {
-                        // Handle other types of goals
-                        goal = new Goal(name, value, description);
-                    }
+                    goal = new Checklist(name, value, description, targetCount, bonusValue);
+                    ((Checklist)goal)._currentCount = currentCount;
+                    goal._completed = currentCount == targetCount;
 
-                    _goals.Add(goal);
+                }
+                else
+                {
+                    continue; // Skip to next line
                 }
 
-                // Read the score
-                if (int.TryParse(reader.ReadLine(), out int loadedScore))
-                {
-                    _score = loadedScore;
-                }
+                _goals.Add(goal);
             }
         }
     }
 }
+
+}
+

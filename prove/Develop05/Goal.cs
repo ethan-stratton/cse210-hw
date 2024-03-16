@@ -22,6 +22,10 @@ public class Goal
     public virtual string DisplayStatus()
     {
         string status = _completed ? "[X]" : "[ ]"; 
-        return $"{_name} - {status}";
+        return $"{_name} - {status} : {_description}";
+    }
+
+    public virtual string getClassName(){
+        return typeof(Goal).Name;
     }
 }

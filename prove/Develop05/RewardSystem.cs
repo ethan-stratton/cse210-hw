@@ -22,11 +22,12 @@ class RewardSystem
     {
         CheckEarlyBirdReward(goals);
         CheckCompletionistReward(goals);
+        //add more here
     }
 
     private void CheckEarlyBirdReward(List<Goal> goals)
     {
-        // Example: Give "Early Bird" reward if a certain goal is completed early (not implemented)
+        // Give "Early Bird" reward if a certain goal is completed early (not implemented)
         foreach (Goal goal in goals)
         {
             if (goal is Simple simpleGoal && simpleGoal._completed && simpleGoal._value >= 10)
@@ -39,7 +40,7 @@ class RewardSystem
 
     private void CheckCompletionistReward(List<Goal> goals)
     {
-        // Give "Completionist" reward if all goals are completed
+        //Gives "Completionist" reward if all goals are completed
         bool allGoalsCompleted = true;
         foreach (Goal goal in goals)
         {
@@ -58,7 +59,7 @@ class RewardSystem
 
     private void UnlockReward(string rewardName)
     {
-        // Unlocks the specified reward
+        //Unlocks the specified reward or achievement
         if (_rewards.ContainsKey(rewardName))
         {
             _rewards[rewardName] = true;

@@ -54,7 +54,7 @@ class Program
                     break;
 
                 case "5":
-                    tracker.RecordEvent();
+                    tracker.RecordGoalCompletion();
                     break;
 
                 case "6":

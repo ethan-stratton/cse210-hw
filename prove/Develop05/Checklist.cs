@@ -17,7 +17,7 @@ class Checklist : Goal
     {
         _currentCount++;
 
-        if (_currentCount == _targetCount)
+        if (_currentCount == _targetCount && _currentCount !>= _targetCount)
         {
             _value += _bonusValue;
             base.RecordEvent();
@@ -29,7 +29,7 @@ class Checklist : Goal
         return $"{base.DisplayStatus()} -- Completed {_currentCount}/{_targetCount} times";
     }
 
-    public override string getClassName(){
+    public override string GetClassName(){
         return typeof(Checklist).Name;
     }
 }

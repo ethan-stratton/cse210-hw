@@ -6,15 +6,15 @@ class Eternal : Goal
 
     public override void RecordEvent()
     {
-        //nothing happens because it can't be 'completed'. it goes on forever
+        //nothing happens because it can't be 'completed'. it goes on forever...
     }
 
     public override string DisplayStatus()
     {
-        return $"{_name}";
+        return $"[∞] - {_name} : {_description}";
     }
 
-    public override string getClassName(){
+    public override string GetClassName(){
         return typeof(Eternal).Name;
     }
 

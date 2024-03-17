@@ -7,6 +7,8 @@ class GoalHandler
 {
     private List<Goal> _goals = new List<Goal>();
     private int _score = 0;
+    private RewardSystem _rewardSystem = new RewardSystem(); // makes an achievement tracker
+
 
     public void AddGoal()
 {
@@ -48,24 +50,33 @@ class GoalHandler
     _goals.Add(goal);
 }
 
-    public void RecordEvent()
+public void RecordGoalCompletion()
+{
+    if (_goals.Count == 0)
     {
-        Console.WriteLine("Enter the name of the goal you want to record an event for:");
-        string goalName = Console.ReadLine();
-
-        Goal selectedGoal = _goals.Find(g => g._name == goalName); // a handy trick using Linq
-
-        if (selectedGoal != null)
-        {
-            selectedGoal.RecordEvent();
-            _score += selectedGoal._value;
-            Console.WriteLine($"Event recorded for {goalName}. You earned {selectedGoal._value} points.");
-        }
-        else
-        {
-            Console.WriteLine($"Goal with name {goalName} not found.");
-        }
+        Console.WriteLine("You currently have no goals to record events for.");
+        return;
     }
+
+    Console.WriteLine("Choose the goal number you want to record an event for:");
+    DisplayGoals();
+    int selectedGoalIndex;
+    if (!int.TryParse(Console.ReadLine(), out selectedGoalIndex) || selectedGoalIndex <= 0 || selectedGoalIndex > _goals.Count)
+    {
+        Console.WriteLine("Invalid goal number.");
+        return;
+    }
+
+    Goal selectedGoal = _goals[selectedGoalIndex - 1];
+    selectedGoal.RecordEvent();
+    _score += selectedGoal._value;
+    Console.WriteLine($"Event recorded for {selectedGoal._name}. You earned {selectedGoal._value} points.");
+    //checks the achievement system
+    _rewardSystem.CheckForRewards(_goals);
+
+}
+
+
     public void DisplayGoals()
     {
         Console.WriteLine("\nYour goals: ");
@@ -97,16 +108,16 @@ class GoalHandler
             {
                 if (goal is Simple simpleGoal)
                 {
-                    writer.WriteLine($"{simpleGoal.getClassName()},{simpleGoal._name},{simpleGoal._description},{simpleGoal._value}, {simpleGoal._completed}");
+                    writer.WriteLine($"{simpleGoal.GetClassName()},{simpleGoal._name},{simpleGoal._description},{simpleGoal._value}, {simpleGoal._completed}");
                 }
                 if (goal is Eternal eternalGoal)
                 {
-                    writer.WriteLine($"{eternalGoal.getClassName()},{eternalGoal._name},{eternalGoal._description},{eternalGoal._value}");
+                    writer.WriteLine($"{eternalGoal.GetClassName()},{eternalGoal._name},{eternalGoal._description},{eternalGoal._value}");
                 }
                 //checklistgoal: 7 parts: name description points, bonus points, times needed, times already done
                 if (goal is Checklist checklistGoal)
                 {
-                    writer.WriteLine($"{checklistGoal.getClassName()},{checklistGoal._description},{checklistGoal._value},{checklistGoal._bonusValue},{checklistGoal._targetCount},{checklistGoal._currentCount}");
+                    writer.WriteLine($"{checklistGoal.GetClassName()},{checklistGoal._description},{checklistGoal._value},{checklistGoal._bonusValue},{checklistGoal._targetCount},{checklistGoal._currentCount}");
                 }
             }
         }
@@ -142,11 +153,9 @@ class GoalHandler
 
                 if (type == "Simple")
                 {
-                    
                     bool completed = bool.Parse(parts[4]);
                     goal = new Simple(name, value, description);
                     goal._completed = completed;
-
                 }
                 else if (type == "Eternal")
                 {
@@ -162,11 +171,10 @@ class GoalHandler
                     goal = new Checklist(name, value, description, targetCount, bonusValue);
                     ((Checklist)goal)._currentCount = currentCount;
                     goal._completed = currentCount == targetCount;
-
                 }
                 else
                 {
-                    continue; // Skip to next line
+                    continue; // Skips to next line
                 }
 
                 _goals.Add(goal);

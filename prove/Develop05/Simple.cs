@@ -4,7 +4,7 @@ class Simple : Goal
     {
     }
     
-    public override string getClassName(){
+    public override string GetClassName(){
         return typeof(Simple).Name;
     }
 }

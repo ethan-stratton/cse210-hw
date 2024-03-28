@@ -3,8 +3,6 @@ public class Fish : Pet
     public string _species { get; }
 
     //once age hits 10 for fish, it dies.
-
-
     public Fish(string name, string species) : base(name, species, 0)
     {
         _species = species;
@@ -13,7 +11,6 @@ public class Fish : Pet
     public override void Play()
     {
         Console.WriteLine($"{Name} is swimming gracefully!");
-        // Adjust happiness and hunger level accordingly
         Happiness += 5;
         HungerLevel += 3;
     }

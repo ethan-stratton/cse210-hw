@@ -16,8 +16,8 @@ public class Activity
         // Check if the pet has enough energy to perform the activity
         if (pet.HungerLevel >= EnergyRequirement)
         {
-            // Perform the activity
-            Console.WriteLine($"{pet.Name} is {Name}.");
+            // Perform the activity // do smth??
+            Console.WriteLine($"{pet.Name} is performing qctivity.");
             // Adjust the pet's happiness and energy level based on the activity
             pet.IncreaseHappiness(HappinessBoost);
             pet.DecreaseHungerLevel(EnergyRequirement);

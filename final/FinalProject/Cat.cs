@@ -3,6 +3,9 @@ public class Cat : Pet
     public string _color { get; }
     public bool IsScratching { get; private set; }
 
+    //once age hits 20 for cats, it dies.
+
+
     public Cat(string name, string species) : base(name, species, 0)
     {
         _color = species;

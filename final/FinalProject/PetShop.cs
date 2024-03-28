@@ -1,31 +1,30 @@
 public class PetShop
 {
-    private List<Pet> availablePets;
+    private List<Pet> _availablePets;
 
     public PetShop()
     {
-        availablePets = new List<Pet>();
-        // Populate available pets
-        availablePets.Add(new Pet("Fluffy", "Cat", 2));
-        availablePets.Add(new Pet("Buddy", "Dog", 3));
-        // Add more pets as needed
+        _availablePets = new List<Pet>();
+        // Populate available pets, default values
+        _availablePets.Add(new Pet("Fluffy", "Cat", 2));
+        _availablePets.Add(new Pet("Buddy", "Dog", 3));
+        // Add more pets as needed...
     }
 
     public void DisplayAvailablePets()
     {
         Console.WriteLine("Available Pets:");
-        foreach (Pet pet in availablePets)
+        foreach (Pet pet in _availablePets)
         {
             Console.WriteLine($"Name: {pet.Name}, Species: {pet.Species}, Age: {pet.Age}");
         }
     }
-
     public Pet AdoptPet(string name)
     {
-        Pet petToAdopt = availablePets.FirstOrDefault(pet => pet.Name == name);
+        Pet petToAdopt = _availablePets.FirstOrDefault(pet => pet.Name == name);
         if (petToAdopt != null)
         {
-            availablePets.Remove(petToAdopt);
+            _availablePets.Remove(petToAdopt);
         }
         return petToAdopt;
     }

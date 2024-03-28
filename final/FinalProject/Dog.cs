@@ -4,6 +4,9 @@ public class Dog : Pet
     public bool IsTrained { get; private set; }
     private List<string> _tricks;
 
+    //once age hits 15 for dogs, it dies.
+
+
     public Dog(string name, string species) : base(name, species, 0)
     {
         Breed = species;

@@ -2,10 +2,10 @@ public class FoodItem
 {
     public string Name { get; }
     public int NutritionValue { get; }
-    public decimal Price { get; }
+    public double Price { get; }
     public FoodType Type { get; }
 
-    public FoodItem(string name, decimal price, FoodType type)
+    public FoodItem(string name, double price, FoodType type)
     {
         Name = name;
         Price = price;
@@ -27,7 +27,7 @@ public class FoodItem
                 NutritionValue = 100; 
                 break;
             default:
-                NutritionValue = 0; // Default nutritional value
+                NutritionValue = 10; // Default nutritional value
                 break;
         }
     }

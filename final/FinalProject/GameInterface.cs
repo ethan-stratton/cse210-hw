@@ -31,11 +31,13 @@ public class GameInterface
     public void DisplayPetsOwned(Player player)
     {
         Console.WriteLine($"You currently own {player.PetsOwned.Count} pet(s):");
-        foreach (Pet pet in player.PetsOwned)
+        for (int i = 0; i < player.PetsOwned.Count; i++)
         {
-            Console.WriteLine($"- {pet.Name} ({pet.Species})");
+            // Print each pet with a number
+            Console.WriteLine($"{i + 1}. {player.PetsOwned[i].Name} ({player.PetsOwned[i].Species})");
         }
     }
+
 
     public void DisplayInteractMenu()
     {
@@ -46,7 +48,7 @@ public class GameInterface
         Console.WriteLine("4. Back to Main Menu");
     }
 
-    public int GetPetChoice(Player player)
+      public int GetPetChoice(Player player)
     {
         Console.WriteLine("Choose a pet to interact with:");
         DisplayPetsOwned(player);

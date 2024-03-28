@@ -10,12 +10,16 @@ public class Player
         PlayerName = playerName;
         PetsOwned = new List<Pet>();
     }
-
     public void AdoptPet(Pet pet)
     {
         PetsOwned.Add(pet);
         Console.WriteLine($"{PlayerName} adopted {pet.Name}!");
     }
 
-    // Add other methods ...
+    // Add method which removes pet from list. (it died)
+    public void RemovePet(Pet pet)
+    {
+        PetsOwned.Remove(pet);
+    }
+
 }

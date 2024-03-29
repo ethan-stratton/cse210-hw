@@ -5,7 +5,7 @@ public class PetShop
     public PetShop()
     {
         _availablePets = new List<Pet>();
-        // Populate available pets, default values
+        // Populate available pets
         _availablePets.Add(new Pet("Fluffy", "Cat", 2));
         _availablePets.Add(new Pet("Buddy", "Dog", 3));
         // Add more pets as needed...

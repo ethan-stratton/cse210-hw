@@ -11,8 +11,8 @@ public class Fish : Pet
     public override void Play()
     {
         Console.WriteLine($"{Name} is swimming gracefully!");
-        Happiness += 5;
-        HungerLevel += 3;
+        IncreaseHappiness(5);
+        DecreaseHungerLevel(5);
     }
 
     public void StartFishBowlAnimation()

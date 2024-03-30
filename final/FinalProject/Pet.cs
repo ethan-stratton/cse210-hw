@@ -13,68 +13,74 @@ using System;
 
 public class Pet
 {
-    public string Name { get; }
-    public string Species { get; }
-    public int Age { get; }
-    public int Health { get; protected set; }
-    public int Happiness { get; protected set; }
-    public int HungerLevel { get; protected set; }
+    private string _name;
+    private int _age;
+    private int _health;
+    private int _happiness;
+    private int _hunger;
+    private string _species;
+
+    public string Name { get { return _name; } }
+    public string Species { get {return _species;}}
+    public int Age { get { return _age; } }
+    public int Health { get { return _health; } }
+    public int Happiness { get { return _happiness; } }
+    public int HungerLevel { get { return _hunger; } }
+
+    //if we want to see a dog breed, or a cat color,
+    //make a method called getStatistics, override it in the cat and dog to print the special thing
 
     public Pet(string name, string species, int age)
     {
-        Name = name;
-        Species = species;
-        Age = age;
-        Health = 100; // Set health -> maximum
-        Happiness = 100; // Set happiness -> maximum
-        HungerLevel = 0; // Set hunger level -> minimum
+        _name = name;
+        _species = species;
+        _age = age;
+        _health = 100; // Set health -> maximum
+        _happiness = 100; // Set happiness -> maximum
+        _hunger = 100; // Set hunger level -> maximum
     }
 
     public virtual void Play()
     {
         Console.WriteLine($"{Name} is playing with you!");
         
-        // Adjust happiness and hunger level accordingly
-        Happiness += 10;
-        HungerLevel += 5;
+        IncreaseHappiness(10);
+        DecreaseHungerLevel(5);
 
-        // Ensure happiness doesn't exceed maximum value
-        if (Happiness > 100)
+        Console.WriteLine($"{Name} is happy after playing!");
+    }
+
+    public void CapHappiness()
+    {
+        if (_happiness > 100)
         {
-            Happiness = 100;
+            _happiness = 100;
         }
     }
 
     public void Feed(FoodItem foodItem)
     {
-        // Logic for feeding the pet with a specific food item
         Console.WriteLine($"{Name} is eating {foodItem.Name}!");
         // Adjust health and hunger level based on the nutritional value of the food
-        Health += foodItem.NutritionValue;
-        Happiness += 5;
-        HungerLevel -= 10;
+        IncreaseHealth(foodItem.NutritionValue);
+        IncreaseHappiness(5);
+        IncreaseHungerLevel(10);
+        
         if (foodItem.Type == FoodType.Treat){
-            Happiness += 20;
+            IncreaseHappiness(20);
             Console.WriteLine($"Because {Name} ate a treat, they are extra happy!");
-            // Ensure happiness doesn't exceed maximum value
-            if (Happiness > 100)
-            {
-                Happiness = 100;
-            }
         }
     }
 
     public void Sleep()
     {
-        // Logic for the pet to sleep
         Console.WriteLine($"{Name} is sleeping.");
-        // Adjust health, happiness, and hunger level accordingly
-        Health += 5;
-        Happiness += 10;
-        HungerLevel -= 5;
+        IncreaseHealth(5);
+        IncreaseHappiness(10);
+        DecreaseHungerLevel(5);
 
         //problem: how do I implement this to check to see if the pet died?
-        //this.AutoCheckHungerLevel(player);
+        //AutoCheckHungerLevel(player);
     }
 
 //should maybe make a method which displays it in a table, very easy to read (like "CheckStatus" or smth)
@@ -100,18 +106,35 @@ public class Pet
 //IncreaseHappiness and DecreaseHungerLevel were implemented in order to give access to the member variables from Activity class
     public void IncreaseHappiness(int amount)
     {
-        Happiness += amount;
+        _happiness += amount;
+        CapHappiness();
     }
 
     public void DecreaseHungerLevel(int amount)
     {
-        HungerLevel -= amount;
+        _hunger -= amount;
     }
 
-    public void AutoCheckHungerLevel(Player player)
+    public void IncreaseHungerLevel(int amount)
+    {
+        _hunger += amount;
+    }
+
+
+    public void DecreaseHealth(int amount)
+    {
+        _health -= amount;
+    }
+
+    public void IncreaseHealth(int amount)
+    {
+        _health += amount;
+    }
+
+    public void AutoCheckHungerLevel(Player player) // make it check everything
     {
         //so I need to figure this one out, how do I get it to check frequently and save the result?
-        if (HungerLevel >= 100)
+        if (_hunger >= 100)
         {
             Console.WriteLine($"{Name} has starved to death!");
             player.RemovePet(this);

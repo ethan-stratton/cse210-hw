@@ -27,7 +27,7 @@ public class Cat : Pet
     public override void Play()
     {
         Console.WriteLine($"{Name} is chasing a toy!");
-        Happiness += 10;
-        HungerLevel += 5;
+        IncreaseHappiness(10);
+        DecreaseHungerLevel(5);
     }
 }

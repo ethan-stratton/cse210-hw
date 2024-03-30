@@ -11,7 +11,7 @@ public class PetShop
         // Add more pets as needed...
     }
 
-    public void DisplayAvailablePets()
+    public void DisplayAvailablePets() // displays pets in the pet shop
     {
         Console.WriteLine("Available Pets:");
         foreach (Pet pet in _availablePets)
@@ -19,7 +19,7 @@ public class PetShop
             Console.WriteLine($"Name: {pet.Name}, Species: {pet.Species}, Age: {pet.Age}");
         }
     }
-    public Pet AdoptPet(string name)
+    public Pet AdoptPet(string name) // returns the pet the user wants
     {
         Pet petToAdopt = _availablePets.FirstOrDefault(pet => pet.Name == name);
         if (petToAdopt != null)

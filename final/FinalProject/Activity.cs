@@ -1,5 +1,6 @@
 public class Activity
 {
+    //make private
     public string _activityName { get; }
     public int _energyRequirement { get; }
     public int _happinessBoost { get; }

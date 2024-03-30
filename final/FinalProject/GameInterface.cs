@@ -2,6 +2,7 @@ using System;
 
 public class GameInterface
 {
+    
     public void DisplayWelcomeMessage()
     {
         Console.WriteLine("Welcome to the Virtual Pet Simulation Game!");

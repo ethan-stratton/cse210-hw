@@ -28,7 +28,7 @@ public class Dog : Pet
     {
         Console.WriteLine($"{Name} is playing fetch!");
         // Adjust happiness and hunger level accordingly
-        Happiness += 15;
-        HungerLevel += 5;
+        IncreaseHappiness(15);
+        DecreaseHealth(5);
     }
 }

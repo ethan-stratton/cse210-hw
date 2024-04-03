@@ -1,9 +1,11 @@
 public class Activity
 {
-    //make private
-    public string _activityName { get; }
-    public int _energyRequirement { get; }
-    public int _happinessBoost { get; }
+    //get rid of variables that don't need to be there
+    private string _activityName;
+    private int _energyRequirement;
+    private int _happinessBoost;
+
+    public string ActivityName {get {return _activityName; }}
 
     public Activity(string name, int energyRequirement, int happinessBoost)
     {
@@ -11,13 +13,10 @@ public class Activity
         _energyRequirement = energyRequirement;
         _happinessBoost = happinessBoost;
     }
-
     public void PerformActivity(Pet pet)
     {
-        // Check if the pet has enough energy to perform the activity
-        if (pet.HungerLevel >= _energyRequirement)
+        if (pet.HungerLevel >= _energyRequirement) // Check if the pet has enough energy to perform the activity
         {
-            // Perform the activity // do smth??
             Console.WriteLine($"{pet.Name} is performing qctivity.");
             // Adjust the pet's happiness and energy level based on the activity
             pet.IncreaseHappiness(_happinessBoost);
@@ -27,5 +26,6 @@ public class Activity
         {
             Console.WriteLine($"{pet.Name} doesn't have enough energy to {_activityName}.");
         }
+        pet.UpdateStatus();
     }
 }

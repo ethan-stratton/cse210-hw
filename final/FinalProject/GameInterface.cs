@@ -1,14 +1,10 @@
 using System;
-
 public class GameInterface
 {
-    
     public void DisplayWelcomeMessage()
     {
         Console.WriteLine("Welcome to the Virtual Pet Simulation Game!");
-        Console.WriteLine("Let's get started...");
     }
-
     public void DisplayMainMenu()
     {
         Console.WriteLine("Main Menu:");
@@ -16,7 +12,6 @@ public class GameInterface
         Console.WriteLine("2. Interact with your pets");
         Console.WriteLine("3. Exit");
     }
-
     public int GetUserChoice()
     {
         Console.Write("Enter your choice: ");
@@ -28,28 +23,44 @@ public class GameInterface
         }
         return choice;
     }
-
     public void DisplayPetsOwned(Player player)
     {
         Console.WriteLine($"You currently own {player.PetsOwned.Count} pet(s):");
         for (int i = 0; i < player.PetsOwned.Count; i++)
         {
-            // Print each pet with a number
+            // Print each pet with a number, so the user can select which pet they want
             Console.WriteLine($"{i + 1}. {player.PetsOwned[i].Name} ({player.PetsOwned[i].Species})");
         }
     }
-
-
     public void DisplayInteractMenu()
     {
         Console.WriteLine("Interact Menu:");
         Console.WriteLine("1. Play with a pet");
-        Console.WriteLine("2. Feed a pet");
-        Console.WriteLine("3. Check pet's health/happiness");
-        Console.WriteLine("4. Back to Main Menu");
+        Console.WriteLine("2. Choose special pet activity");
+        Console.WriteLine("3. Feed a pet");
+        Console.WriteLine("4. Check pet's health/happiness");
+        Console.WriteLine("5. See Pet's Special Info");
+        Console.WriteLine("6. Rename a pet");
+        Console.WriteLine("7. Back to Main Menu");
     }
+    public void RenamePetMenu(Player player)
+    {
+        if (player.PetsOwned.Count == 0)
+        {
+            Console.WriteLine("You currently don't own any pets.");
+            return; // Return to the main menu
+        }
 
-      public int GetPetChoice(Player player)
+        DisplayPetsOwned(player);
+
+        int petIndex = GetPetChoice(player);
+
+        Console.Write("Enter the new name for the pet: ");
+        string newName = Console.ReadLine();
+
+        player.RenamePet(petIndex, newName);
+    }
+    public int GetPetChoice(Player player)
     {
         Console.WriteLine("Choose a pet to interact with:");
         DisplayPetsOwned(player);
@@ -62,6 +73,26 @@ public class GameInterface
         }
         return petIndex - 1; // - 1 so list is read properly (0-based list)
     }
+    public int GetActivityChoice(int maxActivityCount)
+    {
+        Console.Write("Enter the number of the activity: ");
+        int activityIndex;
+        while (!int.TryParse(Console.ReadLine(), out activityIndex) || activityIndex < 1 || activityIndex > maxActivityCount)
+        {
+            Console.WriteLine("Invalid input. Please enter a valid number.");
+            Console.Write("Enter the number of the activity: ");
+        }
+        return activityIndex - 1; // Subtract 1 to convert to 0-based index
+    }
+
+    // public void DisplayActivitiesForPet(Pet pet)
+    // {
+    //     Console.WriteLine($"Activities for {pet.Name}:");
+    //     for (int i = 0; i < pet.PetActivities.Count; i++)
+    //     {
+    //         Console.WriteLine($"{i + 1}. {pet.PetActivities[i].ActivityName}");
+    //     }
+    // }
 
     public void DisplayExitMessage()
     {

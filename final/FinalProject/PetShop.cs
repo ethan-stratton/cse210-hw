@@ -1,14 +1,16 @@
 public class PetShop
 {
     private List<Pet> _availablePets;
-
     public PetShop()
     {
+        //randomly generate pets from a list of names...
+
         _availablePets = new List<Pet>();
-        // Populate available pets
-        _availablePets.Add(new Pet("Fluffy", "Cat", 2));
-        _availablePets.Add(new Pet("Buddy", "Dog", 3));
-        // Add more pets as needed...
+        //hardcoded available pets
+        _availablePets.Add(new Cat("Fluffy", "Cat", 2));
+        _availablePets.Add(new Dog("Buddy", "Dog", 3));
+        _availablePets.Add(new Fish("Bubbles", "Fish", 1));
+        // Add more pets as needed
     }
 
     public void DisplayAvailablePets() // displays pets in the pet shop

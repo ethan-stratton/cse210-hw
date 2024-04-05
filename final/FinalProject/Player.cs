@@ -171,7 +171,6 @@ public class Player
         Pet selectedPet = PetsOwned[petIndex];
         Console.WriteLine($"{selectedPet.GetSpecialStats()}");
     }
-    //..........................................................................
     private void SeePetActivities(int petIndex)
     {
         Pet selectedPet = PetsOwned[petIndex];
@@ -212,7 +211,6 @@ public class Player
             Console.WriteLine("This pet doesn't have any activities.");
         }
     }
-    //..............................................................................................
     public void RemoveDeadPets()
     {
         for (int i = PetsOwned.Count - 1; i >= 0; i--)

@@ -4,7 +4,6 @@ using System.ComponentModel;
 // add new list of activites every pet can do. add more to the list in the derived classes.
 // use the activity class and initialize them.
 // add "activity menu" to the game interface
-
 public class Pet
 {
     private string _name;
@@ -16,6 +15,7 @@ public class Pet
     private int _ageOfDeath;
     private bool _isDead; // player can see if a Pet is dead, and if one of the pets is dead, remove it from list
     protected int _ageCounter;
+    private FoodType _preferredDiet;
     private List<Activity> _petActivites;
     public string Name { get { return _name; } }
     public string Species { get {return _species;}}
@@ -25,10 +25,7 @@ public class Pet
     public int HungerLevel { get { return _hunger; } }
     public bool IsDead { get { return _isDead; } }
     public List<Activity> PetActivities {get {return _petActivites;}}
-
-
-    //if we want to see a dog breed, or a cat color,
-    //make a method called getStatistics, override it in the cat and dog to print the special thing
+    public FoodType PreferredDiet {get {return _preferredDiet;}}
 
     public Pet(string name, string species, int age)
     {
@@ -41,21 +38,19 @@ public class Pet
 
         _petActivites = new List<Activity>();
 
-        Activity Stare = new Activity("Do Nothing With Your Pet", 0, 0);
+        Activity Stare = new Activity("Do Nothing", 0, 0);
         _petActivites.Add(Stare);
     }
 
-    public void AddNewActivity(string name, int energyRequired, int happinessBoost)
+    public void AddNewActivity(string name, int energyRequired, int happinessBoost, Action action = null)
     {
-        Activity activity = new Activity(name, energyRequired, happinessBoost);
+        Activity activity = new Activity(name, energyRequired, happinessBoost, action);
         _petActivites.Add(activity);
     }
-
     public void Rename(string newName)
     {
         _name = newName;
     }
-
     public virtual void Play()
     {
         Console.WriteLine($"{Name} is playing with you!");
@@ -69,14 +64,12 @@ public class Pet
         {
             Console.WriteLine($"{i + 1}. {PetActivities[i].ActivityName}");
         }
-    }
-
-    
+    }  
     public virtual string GetSpecialStats()
     {
         return $"{Name}, {Species}, {Age}";
     }
-    public void CapHappiness()
+    private void CapHappiness()
     {
         if (_happiness > 100)
         {
@@ -88,7 +81,7 @@ public class Pet
         }
         DeathCheck();
     }
-    public void CapHealth()
+    private void CapHealth()
     {
         if (_health > 100)
         {
@@ -101,7 +94,7 @@ public class Pet
         }
         DeathCheck();
     }
-    public void CapHunger()
+    private void CapHunger()
     {
         if (_hunger > 100)
         {
@@ -114,8 +107,14 @@ public class Pet
         }
         DeathCheck();
     }
-    public void Feed(FoodItem foodItem)
+    public virtual void Feed(FoodItem foodItem)
     {
+        if (IsPreferredFood(foodItem))
+        {
+            Console.WriteLine($"{Name} enjoys its preferred food and gets a health boost!");
+            IncreaseHealth(10);
+        }
+        
         Console.WriteLine($"{Name} is eating {foodItem.Name}!");
         // Adjust health and hunger level based on the nutritional value of the food
         IncreaseHealth(foodItem.NutritionValue);
@@ -128,8 +127,16 @@ public class Pet
         }
     }
 
-
-    public void SetDeathAge(int age)
+    // Method to check if the given food item matches the preferred food type of the pet
+    protected bool IsPreferredFood(FoodItem foodItem)
+    {
+        return foodItem.Type == _preferredDiet;
+    }
+    protected void SetPreferredFoodType(FoodType foodItem)
+    {
+        _preferredDiet = foodItem;
+    }
+    protected void SetDeathAge(int age)
     {
         _ageOfDeath = age;
     }
@@ -169,7 +176,7 @@ public class Pet
             _ageCounter = 0;
         }
     }
-    public void GetOlder()
+    protected void GetOlder()
     {
         _age++; //pet ages one year
     }
@@ -207,12 +214,12 @@ public class Pet
     {
         _isDead = true;
     }
-    public void DeathCheck() 
+    private void DeathCheck() 
     //the player would need to have a method to check if the pet is dead adn remove it from their list.
     {
         if (_hunger <= 0)
         {
-            Console.WriteLine($"{Name} has starved!");
+            Console.WriteLine($"{Name} has had nothing to eat for days!");
             Die();
         }
         if (_health <= 0)

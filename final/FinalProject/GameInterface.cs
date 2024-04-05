@@ -10,7 +10,8 @@ public class GameInterface
         Console.WriteLine("Main Menu:");
         Console.WriteLine("1. Adopt a pet");
         Console.WriteLine("2. Interact with your pets");
-        Console.WriteLine("3. Exit");
+        Console.WriteLine("3. Buy Food from Pet Food Store");
+        Console.WriteLine("4. Exit");
     }
     public int GetUserChoice()
     {
@@ -84,16 +85,6 @@ public class GameInterface
         }
         return activityIndex - 1; // Subtract 1 to convert to 0-based index
     }
-
-    // public void DisplayActivitiesForPet(Pet pet)
-    // {
-    //     Console.WriteLine($"Activities for {pet.Name}:");
-    //     for (int i = 0; i < pet.PetActivities.Count; i++)
-    //     {
-    //         Console.WriteLine($"{i + 1}. {pet.PetActivities[i].ActivityName}");
-    //     }
-    // }
-
     public void DisplayExitMessage()
     {
         Console.WriteLine("Thank you for playing the Virtual Pet Simulation Game!");

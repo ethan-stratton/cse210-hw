@@ -1,15 +1,21 @@
 using System.Collections.Generic;
-
-//potential ideas, play class which lists all the different ways you can play with your pet, or perform different activites
 public class Player
-{    private string _playerName;
+{    
+    private string _playerName;
     private List<Pet> _petsOwned;
+    private double _playerCash;
     public string PlayerName { get { return _playerName;} }
     public List<Pet> PetsOwned {get {return _petsOwned;} }
+    public double PlayerCash {get {return _playerCash;}}
+    private List<FoodItem> _inventory;
+
     public Player(string playerName)
     {
         _playerName = playerName;
         _petsOwned = new List<Pet>();
+
+        _playerCash = 100.00; // Default player cash. Only have 100 bucks
+        _inventory = new List<FoodItem>();
     }
     public void AddPetToList(Pet pet)
     {   
@@ -40,7 +46,6 @@ public class Player
     {
         PetsOwned.Remove(pet);
     }
-
     public void PlayWithPet(int petIndex)
     {
         Pet selectedPet = PetsOwned[petIndex];
@@ -63,61 +68,125 @@ public class Player
         }
     }
     public void RenamePet(int petIndex, string newName)
-{
-    if (petIndex >= 0 && petIndex < PetsOwned.Count)
     {
-        Pet pet = PetsOwned[petIndex];
-        Console.WriteLine($"Renaming {pet.Name} to {newName}.");
-        pet.Rename(newName);
+        if (petIndex >= 0 && petIndex < PetsOwned.Count)
+        {
+            Pet pet = PetsOwned[petIndex];
+            Console.WriteLine($"Renaming {pet.Name} to {newName}.");
+            pet.Rename(newName);
+        }
+        else
+        {
+            Console.WriteLine("Invalid pet index.");
+        }
     }
-    else
+    public void FeedPet(int petIndex)
     {
-        Console.WriteLine("Invalid pet index.");
-    }
-}
-    public void FeedPet(int petIndex, FoodItem food)
-    {
-        Pet selectedPet = PetsOwned[petIndex];
+        Console.WriteLine("Select a food item to feed your pet:");
+        for (int i = 0; i < _inventory.Count; i++)
+        {
+            Console.WriteLine($"{i + 1}. {_inventory[i].Name} - {_inventory[i].NutritionValue} Nutrition");
+        }
 
-        //somehow do functionality to feed the pets different food items you have on hand...
-        //access FoodShop
-        selectedPet.Feed(food);
-        Console.WriteLine($"{selectedPet.Name} is being fed!");
+        if (int.TryParse(Console.ReadLine(), out int choice))
+        {
+            if (choice >= 1 && choice <= _inventory.Count)
+            {
+                Pet selectedPet = PetsOwned[petIndex];
+                selectedPet.Feed(_inventory[choice - 1]);
+                _inventory.RemoveAt(choice - 1); // Remove the fed food item from inventory
+            }
+            else
+            {
+                Console.WriteLine("Invalid choice.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid input.");
+        }
     }
+    public void BuyFoodItem(FoodShop foodShop)
+    {
+        if (!CheckPlayerHasEnoughCash())
+        {
+            Console.WriteLine("You don't have enough money to buy food.");
+            return;
+        }
 
+        int selectedFoodIndex = GetSelectedFoodIndex(foodShop);
+        if (selectedFoodIndex == -1)
+        {
+            Console.WriteLine("Invalid input or food item is not available.");
+            return;
+        }
+
+        FoodItem selectedFood = foodShop.PurchaseFoodItem(selectedFoodIndex);
+        if (selectedFood == null)
+        {
+            Console.WriteLine("Invalid choice or food item is not available.");
+            return;
+        }
+
+        if (CheckPlayerHasEnoughCashForFood(selectedFood))
+        {
+            _inventory.Add(selectedFood);
+            _playerCash -= selectedFood.Price;
+            Console.WriteLine($"You have purchased {selectedFood.Name}.");
+        }
+        else
+        {
+            Console.WriteLine("You don't have enough money to buy this food item.");
+        }
+    }
+    private bool CheckPlayerHasEnoughCash()
+    {
+        return _playerCash > 0;
+    }
+    private int GetSelectedFoodIndex(FoodShop foodShop)
+    {
+        foodShop.DisplayAvailableFoodItems();
+        Console.WriteLine("Enter the number of the food item you want to purchase:");
+        if (int.TryParse(Console.ReadLine(), out int choice) && choice >= 1 && choice <= 4)
+        {
+            return choice;
+        }
+        return -1;
+    }
+    private bool CheckPlayerHasEnoughCashForFood(FoodItem selectedFood)
+    {
+        return _playerCash >= selectedFood.Price;
+    }
     public void CheckPetHealth(int petIndex)
     {
         Pet selectedPet = PetsOwned[petIndex];
-
         // Display pet's health/happiness/Hunger/Age
         Console.WriteLine($"Health: {selectedPet.CheckHealth()}");
         Console.WriteLine($"Happiness: {selectedPet.CheckHappiness()}");
         Console.WriteLine($"Hunger: {selectedPet.CheckHunger()}");
         Console.WriteLine($"Age: {selectedPet.CheckAge()}");
     }
-
     public void SeePetSpecialStats(int petIndex)
     {
         Pet selectedPet = PetsOwned[petIndex];
         Console.WriteLine($"{selectedPet.GetSpecialStats()}");
     }
-
-    public void SeePetActivities(int petIndex)
+    //..........................................................................
+    private void SeePetActivities(int petIndex)
     {
         Pet selectedPet = PetsOwned[petIndex];
         selectedPet.ListActivities();
-
     }
-    public int GetNumberOfActivitiesForPet(int petIndex)
+    private int GetNumberOfActivitiesForPet(int petIndex)
     {
         if (petIndex >= 0 && petIndex < PetsOwned.Count)
         {
             Pet selectedPet = PetsOwned[petIndex];
             return selectedPet.PetActivities.Count;
         }
-        return 0; // Return 0 if pet index is invalid or if pet has no activities
+        return 0; // Return 0 if pet has no activities
     }
-    public void PerformPetActivity(int petIndex, int activityIndex)
+    private void PerformPetActivity(int petIndex, int activityIndex)
     {
         Pet selectedPet = PetsOwned[petIndex];
         Activity selectedActivity = selectedPet.PetActivities[activityIndex];
@@ -127,14 +196,30 @@ public class Player
         selectedActivity.PerformActivity(selectedPet);
 
     }
+    public void InteractWithPetActivities(GameInterface gameInterface) //this method uses the above three methods
+    {
+        int petIndex = gameInterface.GetPetChoice(this);
+        int numberOfActivities = GetNumberOfActivitiesForPet(petIndex);
 
+        if (numberOfActivities > 0)
+        {
+            SeePetActivities(petIndex);
+            int activityChoice = gameInterface.GetActivityChoice(numberOfActivities);
+            PerformPetActivity(petIndex, activityChoice);
+        }
+        else
+        {
+            Console.WriteLine("This pet doesn't have any activities.");
+        }
+    }
+    //..............................................................................................
     public void RemoveDeadPets()
     {
         for (int i = PetsOwned.Count - 1; i >= 0; i--)
         {
             if (PetsOwned[i].IsDead)
             {
-                Console.WriteLine($"{PlayerName}'s pet {PetsOwned[i].Name} has passed away.");
+                Console.WriteLine($"{PlayerName}'s pet {PetsOwned[i].Name} has passed away...");
                 PetsOwned.RemoveAt(i);
             }
         }

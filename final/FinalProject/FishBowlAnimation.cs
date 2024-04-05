@@ -86,7 +86,7 @@ public class FishBowlAnimation
 
     private static void DisplayQuitPrompt()
     {
-        //unfortunately can't quit prevent blinking text, even with ChatGPT
+        //unfortunately can't quit prevent blinking text
         Console.SetCursorPosition(0, bowlHeight + 1);
         Console.Write("Press Enter to quit...");
     }

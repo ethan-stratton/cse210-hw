@@ -4,18 +4,7 @@ using System.Collections.Generic;
 public class Cat : Pet
 {   private string _color;
     private bool _isScratching;
-    private readonly List<string> _catColors = new List<string> { 
-        "Black",
-        "White",
-        "Grey", 
-        "Calico", 
-        "Orange", 
-        "Tortoiseshell", 
-        "Siamese", 
-        "Blue",
-        "Tabby",
-        "Cream",
-        };
+    private readonly List<string> _catColors = new List<string> { "Black","White","Grey", "Calico", "Orange", "Tortoiseshell", "Siamese", "Blue","Tabby", "Cream",};
     public string Color {get {return _color;}}
     public bool IsScratching { get {return _isScratching;} }
     public Cat(string name, string species, int age) : base(name, species, age)
@@ -23,11 +12,13 @@ public class Cat : Pet
         Random random = new Random();
         int index = random.Next(0, _catColors.Count);
         _color = _catColors[index]; // generate random color for the cat in the constructor
-
+        SetPreferredFoodType(FoodType.WetFood);
         SetDeathAge(20);
         AddNewActivity("Hunt Mice", 15, 15);
         AddNewActivity("Cuddle", 5, 5);
         AddNewActivity($"Watch {Name} Clean Itself", 5, 3);
+        AddNewActivity("Scratch", 15, 15, Scratch);
+
 
         _isScratching = false;
     }
@@ -38,9 +29,8 @@ public class Cat : Pet
     public void Scratch()
     {
         Console.WriteLine($"{Name} is scratching!");
-        // simulate scratching behavior
         _isScratching = true;
-        //if isScratching... do stuff elsewhere?
+        //if isScratching do other things... unimplemented
     }
     public override void Play()
     {

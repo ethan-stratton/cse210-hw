@@ -1,38 +1,41 @@
 public class FoodItem
 {
-    public string Name { get; }
-    public int NutritionValue { get; }
-    public double Price { get; }
-    public FoodType Type { get; }
 
+    private string _name;
+    private int _nutritionValue;
+    private double _price;
+    private FoodType _type;
+    public string Name { get {return _name;} }
+    public int NutritionValue {get {return _nutritionValue;}}
+    public double Price { get {return _price;} }
+    public FoodType Type { get {return _type;} }
     public FoodItem(string name, double price, FoodType type)
     {
-        Name = name;
-        Price = price;
-        Type = type;
+        _name = name;
+        _price = price;
+        _type = type;
 
         // Set nutritional value based on food type
         switch (type)
         {
             case FoodType.DryFood:
-                NutritionValue = 50; 
+                _nutritionValue = 40; 
                 break;
             case FoodType.WetFood:
-                NutritionValue = 80; 
+                _nutritionValue = 30; 
                 break;
             case FoodType.Treat:
-                NutritionValue = 20; 
+                _nutritionValue = 20; 
                 break;
             case FoodType.SpecialDiet:
-                NutritionValue = 100; 
+                _nutritionValue = 45; 
                 break;
             default:
-                NutritionValue = 10; // Default nutritional value
+                _nutritionValue = 10; // placeholder...
                 break;
         }
     }
 }
-
 public enum FoodType
 {
     DryFood,
